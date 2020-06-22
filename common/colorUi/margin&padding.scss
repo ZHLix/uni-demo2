@@ -1,0 +1,63 @@
+$_marginOrPadding_0: 0 !default;
+$_marginOrPadding_xs: 10 !default;
+$_marginOrPadding_sm: 20 !default;
+$_marginOrPadding_df: 30 !default;
+$_marginOrPadding_lg: 40 !default;
+$_marginOrPadding_xl: 50 !default;
+$_marginOrPadding_xxl: 60 !default;
+$_marginOrPadding_sl: 70 !default;
+$_marginOrPadding_xsl: 80 !default;
+
+@function size() {
+	@return (
+		0: $_marginOrPadding_0,
+		xs: $_marginOrPadding_xs,
+		sm: $_marginOrPadding_sm,
+		df: $_marginOrPadding_df,
+		lg: $_marginOrPadding_lg,
+		xl: $_marginOrPadding_xl,
+		xxl: $_marginOrPadding_xxl,
+		sl: $_marginOrPadding_sl,
+		xsl: $_marginOrPadding_xsl
+	);
+}
+@function direction {
+	@return [0, top, right, bottom, left, [tb, [top, bottom]], [lr, [left, right]]];
+}
+@function elements {
+	@return [margin, padding];
+}
+@each $e in elements() {
+	@each $d in direction() {
+		@each $s, $s_v in size() {
+			$class_name: $e; // 类名
+			$key_name: [$e]; // 属性名 // @debug "type-of $d => " + type-of($d);
+			@if type-of($d) == list {
+				$class_name: #{$e}-#{nth($d, 1)};
+				@each $v in nth($d, 2) {
+					$k: index(nth($d, 2), $v);
+					$v: #{$e}-#{$v};
+					@if length($key_name) < $k {
+						$key_name: append($key_name, $v, comma);
+					} @else {
+						$key_name: set-nth($key_name, $k, $v);
+					}
+				}
+			}
+			@elseif $d != 0 {
+				$key_name: [#{$e}-#{$d}];
+				$class_name: #{$e}-#{$d};
+				// @debug $key_name; // set-nth($key_name, 1, #{$e}-#{$d});
+			}
+			@if $s != df {
+				$class_name: #{$class_name}-#{$s};
+			}
+
+			.#{$class_name} {
+				@each $v in $key_name {
+					#{$v}: $s_v + upx;
+				}
+			}
+		}
+	}
+}

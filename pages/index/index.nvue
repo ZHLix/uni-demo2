@@ -1,0 +1,45 @@
+<template>
+	<view class="content container_full flex flex-wrap">
+		<c-refresh>test</c-refresh>
+		<!-- <c-tab-bar></c-tab-bar> -->
+	</view>
+</template>
+
+<script>
+import CRefresh from '@/components/Layout/refresh/nmp.vue'
+import CTabBar from '@/components/TabBar/index.vue'
+export default {
+	components: { CTabBar, CRefresh },
+	data() {
+		return {
+			title: 'Hello'
+		}
+	},
+	onLoad() {
+		// console.log(this.$store.state.theme)
+	},
+	methods: {}
+}
+</script>
+
+<style>
+.content {
+	background-color: #007aff;
+}
+
+.logo {
+	height: 200rpx;
+	width: 200rpx;
+	margin-top: 200rpx;
+	margin-bottom: 50rpx;
+}
+
+.text-area {
+	justify-content: center;
+}
+
+.title {
+	font-size: 36rpx;
+	color: #8f8f94;
+}
+</style>

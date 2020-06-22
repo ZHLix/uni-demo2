@@ -1,0 +1,78 @@
+$red_color: #ffffff !default;
+$orange_color: #ffffff !default;
+$yellow_color: #333333 !default;
+$olive_color: #ffffff !default;
+$green_color: #ffffff !default;
+$cyan_color: #ffffff !default;
+$blue_color: #ffffff !default;
+$purple_color: #ffffff !default;
+$mauve_color: #ffffff !default;
+$pink_color: #ffffff !default;
+$brown_color: #ffffff !default;
+$grey_color: #ffffff !default;
+$gray_color: #333333 !default;
+$black_color: #ffffff !default;
+$white_color: #666666 !default;
+
+@function bg_colors() {
+	@return (
+		red: $red_color,
+		orange: $orange_color,
+		yellow: $yellow_color,
+		olive: $olive_color,
+		green: $green_color,
+		cyan: $cyan_color,
+		blue: $blue_color,
+		purple: $purple_color,
+		mauve: $mauve_color,
+		pink: $pink_color,
+		brown: $brown_color,
+		grey: $grey_color,
+		#{gray}: $gray_color,
+		black: $black_color,
+		white: $white_color
+	);
+}
+@each $k, $v in colors() {
+	.bg-#{$k} {
+		background-color: $v;
+		color: map-get(bg_colors(), $k);
+		@if map-get(colors(true), $k) {
+			&-light {
+				background-color: map-get(colors(true), $k);
+				color: $v;
+			}
+		}
+	}
+}
+
+
+.bg-gradual-red {
+	background-image: linear-gradient(45deg, #f43f3b, #ec008c);
+	color: #ffffff;
+}
+
+.bg-gradual-orange {
+	background-image: linear-gradient(45deg, #ff9700, #ed1c24);
+	color: #ffffff;
+}
+
+.bg-gradual-green {
+	background-image: linear-gradient(45deg, #39b54a, #8dc63f);
+	color: #ffffff;
+}
+
+.bg-gradual-purple {
+	background-image: linear-gradient(45deg, #9000ff, #5e00ff);
+	color: #ffffff;
+}
+
+.bg-gradual-pink {
+	background-image: linear-gradient(45deg, #ec008c, #6739b6);
+	color: #ffffff;
+}
+
+.bg-gradual-blue {
+	background-image: linear-gradient(45deg, #0081ff, #1cbbb4);
+	color: #ffffff;
+}

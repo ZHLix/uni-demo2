@@ -1,0 +1,63 @@
+$_text_xs: 20 !default;
+$_text_sm: 24 !default;
+$_text_df: 28 !default;
+$_text_lg: 32 !default;
+$_text_xl: 36 !default;
+$_text_xxl: 44 !default;
+$_text_sl: 80 !default;
+$_text_xsl: 120 !default;
+
+@function size () {
+	@return (xs: $_text_xs, sm: $_text_sm, df: $_text_df, lg: $_text_lg, xl: $_text_xl, xxl: $_text_xxl, sl: $_text_sl, xsl: $_text_xsl);
+}
+
+// size
+@each $k, $v in size() {
+	.text-#{$k} {
+		font-size: $v + upx;
+	}
+}
+
+// color
+@each $k, $v in colors() {
+	.text-#{$k} {
+		color: $v;
+	}
+}
+
+
+
+// .text-Abc {
+// 	text-transform: Capitalize;
+// }
+
+// .text-ABC {
+// 	text-transform: Uppercase;
+// }
+
+// .text-abc {
+// 	text-transform: Lowercase;
+// }
+
+// .text-cut {
+// 	text-overflow: ellipsis;
+// 	white-space: nowrap;
+// 	overflow: hidden;
+// }
+
+.text-bold {
+	font-weight: bold;
+}
+
+
+.text-left {
+	text-align: left;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}

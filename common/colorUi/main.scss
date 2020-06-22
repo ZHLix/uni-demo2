@@ -1,0 +1,49 @@
+@import './flex';
+@import './color';
+@import './background';
+@import './text';
+@import './margin&padding';
+@import './border';
+ 
+/* ==================
+        初始化
+ ==================== */
+// body {
+	// font-size: $_text_df + upx;
+	// font-family: Helvetica Neue, Helvetica, sans-serif;
+// }
+
+// scroll-view,
+// swiper,
+// button,
+// input,
+// textarea,
+// label,
+// navigator,
+// image {
+// 	box-sizing: border-box;
+// }
+
+.w-25 {
+	width: 25%;
+}
+
+.w-50 {
+	width: 50%;
+}
+
+.w-100 {
+	width: 100%;
+}
+
+.h-25 {
+	height: 25%;
+}
+
+.h-50 {
+	height: 50%;
+}
+
+.h-100 {
+	height: 100%;
+}

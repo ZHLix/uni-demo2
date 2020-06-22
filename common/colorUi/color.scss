@@ -1,0 +1,65 @@
+$red: #e54d42 !default;
+$orange: #f37b1d !default;
+$yellow: #fbbd08 !default;
+$olive: #8dc63f !default;
+$green: #39b54a !default;
+$cyan: #1cbbb4 !default;
+$blue: #0081ff !default;
+$purple: #6739b6 !default;
+$mauve: #9c26b0 !default;
+$pink: #e03997 !default;
+$brown: #a5673f !default;
+$grey: #8799a3 !default;
+$gray: #aaaaaa !default;
+$black: #333333 !default;
+$white: #ffffff !default;
+
+$red_light: #fadbd9 !default;
+$orange_light: #fde6d2 !default;
+$yellow_light: #f2ced2 !default;
+$olive_light: #e8f4d9 !default;
+$green_light: #f0dbff !default;
+$cyan_light: #d2f1f0 !default;
+$blue_light: #cce6ff !default;
+$purple_light: #e1d7f0 !default;
+$mauve_light: #ebd4ef !default;
+$pink_light: #f9d7ea !default;
+$brown_light: #ede1d9 !default;
+$grey_light: #e7ebed !default;
+
+@function colors($light: false) {
+	@if $light {
+		@return (
+			red: $red_light,
+			orange: $orange_light,
+			yellow: $yellow_light,
+			olive: $olive_light,
+			green: $green_light,
+			cyan: $cyan_light,
+			blue: $blue_light,
+			purple: $purple_light,
+			mauve: $mauve_light,
+			pink: $pink_light,
+			brown: $brown_light,
+			grey: $grey_light
+		);
+	} @else {
+		@return (
+			red: $red,
+			orange: $orange,
+			yellow: $yellow,
+			olive: $olive,
+			green: $green,
+			cyan: $cyan,
+			blue: $blue,
+			purple: $purple,
+			mauve: $mauve,
+			pink: $pink,
+			brown: $brown,
+			gray: $gray,
+			#{grey}: $grey,
+			black: $black,
+			white: $white
+		);
+	}
+}
