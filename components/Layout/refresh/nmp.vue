@@ -1,6 +1,6 @@
 <template>
 	<scroll-view
-		class="refresh-container flex-sub"
+		class="refresh-container flex-sub flex flex-direction align-center"
 		scroll-y
 		@touchstart="touch"
 		@touchmove="touch"
@@ -9,11 +9,21 @@
 		@scroll="scroll"
 		@scrolltoupper="toupper"
 	>
-		<div class="container">
-			<div class="item w-100 flex flex-wrap justify-center align-center" :style="{ bottom: -(loading ? maxHeight : offset.top) + 'rpx' }">
-				<div class="load bg-white shadow round"><span :class="['icon', loading ? 'loading' : '']"></span></div>
-			</div>
-		</div>
+		<view :class="['container', 'justify-center', 'align-center', height_status ? 'height_status' : '']" :style="{ height: (loading ? maxHeight : offset.top) + 'rpx' }">
+			<view class="flex-row justify-center align-center" style="min-width: 200upx; height: 100rpx">
+				<image
+					v-if="offset.start || height_status || loading"
+					src="/static/images/loading.png"
+					:class="['loading-image', 'margin-right-xs', loading ? 'loading' : '']"
+					style="width: 20px;height: 20px;"
+				></image>
+
+				<text class="text-sm text-gray" v-if="offset.loading">松开刷新</text>
+				<text class="text-sm text-gray" v-else-if="!loading && height_status">刷新成功</text>
+				<text class="text-sm text-gray" v-else-if="!height_status">下拉刷新</text>
+				<text class="text-sm text-gray" v-else>刷新中</text>
+			</view>
+		</view>
 		<slot></slot>
 	</scroll-view>
 </template>
@@ -36,19 +46,22 @@ export default {
 				start: 0,
 				loading: false
 			},
-			loading: false
+			loading: false,
+			height_status: false
 		}
 	},
 
-	// computed: {
-	// 	containerHeight() {
-	// 		let height = this.offset.top - this.offset.start
-	// 		height = height >= 0 ? height : 0
-	// 		height = height > this.maxHeight * 2 ? this.maxHeight * 2 : height
-	// 		console.log(height)
-	// 		return height //  ? height + 'rpx' : 0
-	// 	}
-	// },
+	watch: {
+		loading(v) {
+			if (v) {
+				this.height_status = true
+			} else {
+				setTimeout(() => {
+					this.height_status = false
+				}, 300)
+			}
+		}
+	},
 
 	methods: {
 		scroll({ detail: { scrollTop } }) {
@@ -61,20 +74,16 @@ export default {
 			this.isTop = true
 		},
 
-		// tolower() {
-		// 	console.log('this is tolower')
-		// },
-
 		touch({ type, touches: [e] }) {
 			if (this.isTop && this.refresh && !this.loading) {
-				const offsetTop = parseInt(e ? e.clientY : 0)
+				const offsetTop = parseInt(e ? e.pageY : 0)
 
 				if (type === 'touchstart') {
 					this.offset.start = offsetTop
 				} else if (type === 'touchmove') {
 					this.offset.top = (offsetTop - this.offset.start) / 2
 
-					if (offsetTop - this.offset.start >= this.maxHeight - 20) {
+					if (offsetTop - this.offset.start >= this.maxHeight) {
 						this.offset.loading = true
 					} else {
 						this.offset.loading = false
@@ -108,58 +117,28 @@ export default {
 
 <style scoped lang="scss">
 .refresh-container {
-	width: 100%;
 	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
 
-	.container {
-		// overflow: hidden;
-		position: absolute;
-		top: -10upx;
-		left: 0;
-		width: 100%;
-		height: 0;
+.container {
+	width: 750upx;
+	background-color: #f1f1f1;
+	flex-direction: row;
+	overflow: hidden;
+}
 
-		.item {
-			// transition: all 0.1s ease;
-			position: absolute;
-			bottom: 0;
-			transform: translateX(-50%);
-			left: 50%;
+.height_status {
+	transition: height 0.3s ease;
+}
 
-			.load {
-				width: 64upx;
-				height: 64upx;
-				box-shadow: 0upx 0upx 12upx rgba(26, 26, 26, 0.2);
+.loading-image {
+	transform: rotate(0deg);
+	transition: transform 12s linear;
+}
 
-				.icon {
-					width: 64upx;
-					height: 64upx;
-					display: inline-block;
-					// vertical-align: middle;
-					// -webkit-animation: uni-loading 1s steps(12) infinite;
-					// animation: uni-loading 1s steps(12) infinite;
-					background-size: 64%;
-					background-repeat: no-repeat;
-					background-position: center;
-					background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgxMDB2MTAwSDB6Ii8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTlFOUU5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTMwKSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iIzk4OTY5NyIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCAxMDUuOTggNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjOUI5OTlBIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDYwIDc1Ljk4IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0EzQTFBMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA2NSA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNBQkE5QUEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwIDU4LjY2IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0IyQjJCMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgxNTAgNTQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjQkFCOEI5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA1MCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDMkMwQzEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1MCA0NS45OCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDQkNCQ0IiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyMCA0MS4zNCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNEMkQyRDIiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDM1IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0RBREFEQSIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgtNjAgMjQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTJFMkUyIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAtNS45OCA2NSkiLz48L3N2Zz4=);
-
-					&.loading {
-						animation: uni-loading 1s steps(12) infinite;
-					}
-
-					@keyframes uni-loading {
-						0% {
-							-webkit-transform: rotate(0deg);
-							transform: rotate(0deg);
-						}
-						to {
-							-webkit-transform: rotate(1turn);
-							transform: rotate(1turn);
-						}
-					}
-				}
-			}
-		}
-	}
+.loading {
+	transform: rotate(4800deg);
 }
 </style>

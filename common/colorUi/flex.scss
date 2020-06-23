@@ -60,8 +60,12 @@
   overflow: hidden;
 }
 
-.flex-direction {
-	flex-direction: column;
+.flex-row {
+	flex-direction: row !important;
+}
+
+.flex-column {
+	flex-direction: column !important;
 }
 
 .flex-wrap {

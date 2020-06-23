@@ -25,4 +25,4 @@ export default {
 	height: 100vh;
 	/* #endif */
 }
-</style> 
+</style>

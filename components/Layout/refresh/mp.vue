@@ -2,7 +2,7 @@
 	<scroll-view
 		class="refresh-container"
 		scroll-y="true"
-		:refresher-enabled="refresherEnabled"
+		:refresher-enabled="refresh"
 		:refresher-triggered="refresherTriggered"
 		@refresherrefresh="refresherHandle"
 	>
@@ -13,7 +13,7 @@
 <script>
 export default {
 	props: {
-		refresherEnabled: {
+		refresh: {
 			type: Boolean,
 			default: true
 		}
@@ -33,6 +33,10 @@ export default {
 		end() {
 			this.refresherTriggered = false
 		}
+	},
+	
+	mounted () {
+		console.log(this.refresh)
 	}
 }
 </script>
@@ -41,5 +45,6 @@ export default {
 	.refresh-container {
 		width: 100%;
 		height: 100%;
+		overflow: hidden;
 	}
 </style>
