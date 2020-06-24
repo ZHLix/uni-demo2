@@ -18,49 +18,48 @@ export default new Vuex.Store({
 		/**
 		 * 底部导航列表
 		 */
-		tabbar: [{
+		tabbar: [
+			{
 				name: '/pages/index/index',
 				title: '首页',
 
-				icon: 'cuIcon-home',
-				iconSelected: 'cuIcon-homefill'
+				icon: '\ue62d',
+				iconSelected: '\ue60a'
 			},
 			{
 				name: '/pages/classify/classify',
 				title: '分类',
 
-				icon: 'cuIcon-circle',
-				iconSelected: 'cuIcon-circlefill'
+				icon: '\ue654',
+				iconSelected: '\ue608'
 			},
 			{
 				name: '/pages/news/news',
 				title: '新闻',
-				icon: 'cuIcon-news',
-				iconSelected: 'cuIcon-newsfill'
+				icon: '\ue657',
+				iconSelected: '\ue658'
 			},
-			// #ifdef MP
 			{
 				title: '油菜招聘',
 				image: '/static/images/job3.png',
 				type: 'navigateToMiniProgram',
 				appId: 'wxc5e14770d465dcac'
 			},
-			// #endif
-			// #ifndef MP
-			{
-				title: '油菜招聘',
-				image: 'static/images/job3.png',
-				type: 'navigateToMiniProgram',
-				appId: 'wxc5e14770d465dcac'
-			},
-			// #endif
 			{
 				name: '/pages/mine/mine',
 				title: '我的',
-				icon: 'cuIcon-my',
-				iconSelected: 'cuIcon-myfill'
+				icon: '\ue63b',
+				iconSelected: '\ue63a'
 			}
 		],
+		
+		menubar: {
+			platform: null,
+			statusbar_height: 20,
+			nav_margin: 6,
+			menubtn_height: 32,
+			menubtn_left: null
+		}
 	},
 	mutations: {
 		/**
@@ -83,6 +82,20 @@ export default new Vuex.Store({
 				value: data
 			})
 		},
+		
+		menubar(context, {platform, statusbar_height, system, nav_margin = 6, menubtn_height = 32, menubtn_left}) {
+			if (platform === 'ios') nav_margin = 4
+			context.commit('update', {
+				key: 'menubar',
+				value: {
+					platform,
+					statusbar_height,
+					nav_margin,
+					menubtn_height,
+					menubtn_left
+				}
+			})
+		}
 	},
 	modules: {}
 })

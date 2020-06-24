@@ -1,0 +1,30 @@
+.cu-btn {
+	/* #ifdef MP */
+	display: inline-block;
+	/* #endif */
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	padding: 0 30upx;
+	font-size: 28upx;
+	height: 64upx;
+	border-color: transparent;
+}
+
+/* #ifdef MP */
+.cu-btn::after {
+	display: none;
+}
+/* #endif */
+
+.cu-btn-sm {
+	padding: 0 20upx;
+	font-size: 20upx;
+	height: 48upx;
+}
+
+.cu-btn-lg {
+	padding: 0 40upx;
+	font-size: 32upx;
+	height: 80upx;
+}

@@ -8,12 +8,32 @@ export default {
 	},
 	onHide: function() {
 		console.log('App Hide')
+	},
+
+	async beforeCreate() {
+		const [, { platform, statusBarHeight, system }] = await uni.getSystemInfo()
+
+		// #ifdef MP
+		const { height, top, left } = uni.getMenuButtonBoundingClientRect()
+		const nav_margin = top - statusBarHeight
+		// #endif
+
+		this.$store.dispatch('menubar', {
+			platform,
+			statusbar_height: statusBarHeight,
+			// #ifdef MP
+			nav_margin,
+			menubtn_height: height,
+			menubtn_left: left
+			// #endif
+		})
 	}
 }
 </script>
 
 <style lang="scss">
 @import './common/colorUi/index.scss';
+
 /*每个页面公共css */
 .container_full {
 	/* #ifdef APP-NVUE */

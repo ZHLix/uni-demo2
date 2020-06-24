@@ -1,29 +1,38 @@
 <template>
 	<view class="content flex flex-direction">
-		<c-refresh class="flex-sub" ref="refresh" @start="refresh">
-			<text>test</text>
+		<c-menu-bar><text class="text-black text-df">标题</text></c-menu-bar>
+
+		<c-refresh class="flex-sub" ref="refresh" @start="refresh" @tolower="lower">
+			<button class="cu-btn bg-blue padding-0">
+				<navigator url="../login/login" class="padding-lr bg-red h-100" hover-class="none"><text class="text-df text-white">登录</text></navigator>
+			</button>
+
+			<button class="cu-btn bg-blue margin-top"><text class="text-df text-white">登录</text></button>
 		</c-refresh>
+
+		<c-tab-bar></c-tab-bar>
 	</view>
 </template>
 
 <script>
-// #ifdef MP
-import CRefresh from '@/components/Layout/refresh/mp.vue'
-// #endif
-// #ifndef MP
-import CRefresh from '@/components/Layout/refresh/nmp.vue'
-// #endif
-import CTabBar from '@/components/TabBar/index.vue'
+import CIcon from '@/components/Icon'
+import CRefresh from '@/components/Layout/refresh'
+import CTabBar from '@/components/TabBar'
+import CMenuBar from '@/components/MenuBar'
 export default {
-	components: { CTabBar, CRefresh },
+	components: { CMenuBar, CIcon, CTabBar, CRefresh },
 	data() {
 		return {
-			title: 'Hello'
+			title: 'Hello',
+			icon: '\ue607'
 		}
 	},
-	onLoad() {
-		// console.log(this.$store.state.theme)
+	computed: {
+		theme() {
+			return this.$store.state.theme
+		}
 	},
+	onLoad() {},
 	methods: {
 		refresh() {
 			console.log('this is refresh')
@@ -31,12 +40,16 @@ export default {
 			setTimeout(() => {
 				this.$refs.refresh.end()
 			}, 1000)
+		},
+
+		lower() {
+			console.log('test')
 		}
 	}
 }
 </script>
 
-<style>
+<style scoped>
 .content {
 	width: 750upx;
 	/* #ifdef H5 */

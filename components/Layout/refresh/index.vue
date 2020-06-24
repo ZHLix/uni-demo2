@@ -1,4 +1,18 @@
 <template>
+	<!-- #ifdef MP -->
+	<scroll-view
+		class="refresh-container"
+		scroll-y="true"
+		:refresher-enabled="refresh"
+		:refresher-triggered="refresherTriggered"
+		@refresherrefresh="refresherHandle"
+		@scrolltolower="tolower"
+	>
+		<slot></slot>
+	</scroll-view>
+	<!-- #endif -->
+	<!-- #ifndef MP -->
+
 	<scroll-view
 		class="refresh-container flex-sub flex flex-direction align-center"
 		scroll-y
@@ -8,6 +22,7 @@
 		@touchcancel="touch"
 		@scroll="scroll"
 		@scrolltoupper="toupper"
+		@scrolltolower="tolower"
 	>
 		<view :class="['container', 'justify-center', 'align-center', height_status ? 'height_status' : '']" :style="{ height: (loading ? maxHeight : offset.top) + 'rpx' }">
 			<view class="flex-row justify-center align-center" style="min-width: 200upx; height: 100rpx">
@@ -26,32 +41,73 @@
 		</view>
 		<slot></slot>
 	</scroll-view>
+
+	<!-- #endif -->
 </template>
 
 <script>
 export default {
+	/**
+	 * 属性
+	 */
 	props: {
+		/**
+		 * 开启下拉刷新
+		 */
 		refresh: {
 			type: Boolean,
 			default: true
 		}
 	},
 
+	/**
+	 * 数据
+	 */
 	data() {
 		return {
+			// #ifdef MP
+			/**
+			 * 下拉状态
+			 */
+			refresherTriggered: false,
+			// #endif
+
+			// #ifndef MP
+
+			/**
+			 * 下拉高度
+			 */
 			maxHeight: 100,
+			/**
+			 * 是否在容器顶部
+			 */
 			isTop: true,
+			/**
+			 * 下拉属性
+			 */
 			offset: {
 				top: 0,
 				start: 0,
 				loading: false
 			},
+			/**
+			 * 下拉刷新状态
+			 */
 			loading: false,
+			/**
+			 * 高度状态
+			 */
 			height_status: false
+
+			// #endif
 		}
 	},
 
+	/**
+	 * 监听
+	 */
 	watch: {
+		// #ifndef MP
 		loading(v) {
 			if (v) {
 				this.height_status = true
@@ -61,12 +117,27 @@ export default {
 				}, 300)
 			}
 		}
+		// #endif
 	},
 
+	/**
+	 * 方法
+	 */
 	methods: {
+		// #ifdef MP
+		refresherHandle(e) {
+			this.refresherTriggered = true
+			this.$emit('start')
+		},
+		// #endif
+
+		// #ifndef MP
+
 		scroll({ detail: { scrollTop } }) {
 			if (scrollTop) {
 				this.isTop = false
+			} else {
+				this.isTop = true
 			}
 		},
 
@@ -107,15 +178,38 @@ export default {
 			this.loading = true
 			this.$emit('start')
 		},
+		// #endif
+
+		tolower() {
+			this.$emit('tolower')
+		},
 
 		end() {
+			// #ifdef MP
+			this.refresherTriggered = false
+			// #endif
+
+			// #ifndef MP
+
 			this.loading = false
+
+			// #endif
 		}
 	}
 }
 </script>
 
 <style scoped lang="scss">
+/* #ifdef MP */
+.refresh-container {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+/* #endif */
+
+/* #ifndef MP */
+
 .refresh-container {
 	height: 100%;
 	overflow: hidden;
@@ -141,4 +235,6 @@ export default {
 .loading {
 	transform: rotate(4800deg);
 }
+
+/* #endif */
 </style>
