@@ -24,10 +24,7 @@ export default {
 		/**
 		 * 阴影
 		 */
-		shadow: {
-			type: Boolean,
-			default: true
-		},
+		shadow: Boolean,
 
 		back: Boolean
 	},

@@ -1,0 +1,84 @@
+<template>
+	<view class="flex-sub">
+		<c-menu-bar back><text class="text-df">登录/注册</text></c-menu-bar>
+		
+		<view class="container_full flex-column bg-white">
+			<!-- contaienr -->
+			<view class="container flex-treble">
+				<view class="padding flex-sub justify-around">
+					<view class="form padding-lr-lg">
+						<view class="form-item flex-row align-center solid-bottom padding-xs margin-bottom">
+							<c-icon :icon="'\ue664'" class="text-gray"></c-icon>
+							<text class="text-sm margin-left-xs">+86</text>
+							<input type="number" maxlength="11" class="flex-sub text-sm padding-lr-sm" placeholder="请输入手机号" />
+						</view>
+						<view class="form-item flex-row align-center solid-bottom padding-xs margin-bottom">
+							<c-icon :icon="'\ue635'" class="text-gray"></c-icon>
+							<input type="number" maxlength="4" class="flex-sub text-sm padding-lr-sm" placeholder="请输入验证码" />
+							<view class="flex-row align-center">
+								<text class="text-sm text-gray">获取验证码</text>
+								<c-icon :icon="'\ue659'" class="text-sm text-gray"></c-icon>
+							</view>
+						</view>
+
+						<view class="form-item flex-row padding-top-lg">
+							<button class="bg-blue cu-btn-lg flex-sub round"><text class="text-df text-white">登录</text></button>
+						</view>
+					</view>
+
+					<view></view>
+				</view>
+			</view>
+
+			<!-- other -->
+			<view class="other flex-sub flex-column justify-center align-center">
+				<view class="title w-100 flex-row align-center padding-lr">
+					<text class="text-sm solid-bottom flex-sub"></text>
+					<text class="text-sm margin-lr text-gray">其他方式登录</text>
+					<text class="text-sm solid-bottom flex-sub"></text>
+				</view>
+
+				<view class="content padding-top-lg flex-wrap padding-lr">
+					<view class="item cu-avatar-lg round bg-white shadow-warp"><c-icon :icon="'\ue662'" class="text-xxl weixin"></c-icon></view>
+				</view>
+			</view>
+
+			<!-- agreement -->
+			<view class="agreement padding align-center">
+				<view class="flex-row">
+					<text class="text-sm">登录代表您已同意</text>
+					<text class="text-sm" :style="{ color: theme.text }">用户协议</text>
+					<text class="text-sm">、</text>
+					<text class="text-sm" :style="{ color: theme.text }">隐私协议</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+import CIcon from '@/components/Icon'
+import CMenuBar from '@/components/MenuBar'
+export default {
+	components: { CMenuBar, CIcon },
+	data() {
+		return {}
+	},
+
+	computed: {
+		theme() {
+			return this.$store.state.theme
+		}
+	},
+
+	methods: {},
+
+	onLoad() {}
+}
+</script>
+
+<style scoped>
+.weixin {
+	color: #15d36a;
+}
+</style>

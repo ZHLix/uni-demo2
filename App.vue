@@ -37,12 +37,21 @@ export default {
 /*每个页面公共css */
 .container_full {
 	/* #ifdef APP-NVUE */
-	flex: 1;
+	// flex: 1;
 	/* #endif */
 
 	/* #ifndef APP-NVUE */
-	width: 100vw;
+	// width: 100vw;
+	// height: 100vh;
+	/* #endif */
+
+	width: 750upx;
+	/* #ifdef H5 */
+	height: calc(100vh - 44px);
+	/* #endif */
+	/* #ifndef H5 */
 	height: 100vh;
 	/* #endif */
+	flex: 1;
 }
 </style>

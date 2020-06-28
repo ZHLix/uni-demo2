@@ -5,6 +5,7 @@
 @import './margin&padding';
 @import './border';
 @import './button';
+@import './avatar';
  
 /* ==================
         初始化
@@ -69,3 +70,10 @@
 	height: 100%;
 /* #endif */
 }
+
+
+/* #ifdef MP || H5 */
+navigator, button {
+	display: inline-block;
+}
+/* #endif */
