@@ -1,0 +1,114 @@
+<template>
+	<view class="flex-sub container_full">
+		<c-menu-bar back><text class="text-df">登录/注册</text></c-menu-bar>
+
+		<view class="flex-sub flex-column bg-white">
+			<!-- contaienr -->
+			<view class="container flex-treble">
+				<view class="padding flex-sub justify-around">
+					<view class="form padding-lr-lg">
+						<view class="form-item flex-row align-center solid-bottom padding-xs margin-bottom">
+							<c-icon :icon="'\ue664'" class="text-gray"></c-icon>
+							<text class="text-sm margin-left-xs">+86</text>
+							<input type="number" maxlength="11" class="flex-sub text-sm padding-lr-sm" placeholder="请输入手机号" />
+						</view>
+						<view class="form-item flex-row align-center solid-bottom padding-xs margin-bottom">
+							<c-icon :icon="'\ue635'" class="text-gray"></c-icon>
+							<input type="number" maxlength="4" class="flex-sub text-sm padding-lr-sm" placeholder="请输入验证码" />
+							<view class="flex-row align-center" @click="sendVerifyCode">
+								<text class="text-sm text-gray">获取验证码</text>
+								<view style="width: 50rpx">
+									<c-icon :icon="'\ue659'" class="text-sm text-gray" v-if="!count_number"></c-icon>
+									<text class="text-sm text-gray" v-else>({{ count_number }})</text>
+								</view>
+							</view>
+						</view>
+
+						<view class="form-item flex-row padding-top-lg">
+							<button class="bg-blue cu-btn-lg flex-sub round"><text class="text-df text-white">登录</text></button>
+						</view>
+					</view>
+
+					<view></view>
+				</view>
+			</view>
+
+			<!-- other -->
+			<view class="other flex-sub flex-column justify-center align-center">
+				<view class="title w-100 flex-row align-center padding-lr">
+					<text class="text-sm solid-bottom flex-sub"></text>
+					<text class="text-sm margin-lr text-gray">其他方式登录</text>
+					<text class="text-sm solid-bottom flex-sub"></text>
+				</view>
+
+				<view class="content padding-top-lg flex-wrap padding-lr">
+					<view class="item cu-avatar-lg round bg-white shadow-warp"><c-icon :icon="'\ue662'" class="text-xxl weixin"></c-icon></view>
+				</view>
+			</view>
+
+			<!-- agreement -->
+			<view class="agreement padding align-center">
+				<view class="flex-row">
+					<text class="text-sm">登录代表您已同意</text>
+					<text class="text-sm" :style="{ color: theme.text }">用户协议</text>
+					<text class="text-sm">、</text>
+					<text class="text-sm" :style="{ color: theme.text }">隐私协议</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+import CIcon from '@/components/Icon'
+import CMenuBar from '@/components/MenuBar'
+export default {
+	components: { CMenuBar, CIcon },
+	data() {
+		return {
+			count_number: null
+		}
+	},
+
+	computed: {
+		theme() {
+			return this.$store.state.theme
+		}
+	},
+
+	methods: {
+		/**
+		 * 发送验证码
+		 */
+		sendVerifyCode() {
+			if (this.count_number) {
+				getApp().globalData.$utils.toast('请勿重复发送验证码')
+				return false
+			}
+			getApp().globalData.$utils.toast('验证码发送成功')
+			// 倒计时
+			this.countDown()
+		},
+		/**
+		 * 验证码倒计时
+		 */
+		countDown(num = 60) {
+			this.count_number = num
+			const interval = setInterval(() => {
+				if (this.count_number <= 0) {
+					clearInterval(interval)
+					this.count_number = null
+					return false
+				}
+				this.count_number -= 1
+			}, 1000)
+		}
+	}
+}
+</script>
+
+<style scoped>
+.weixin {
+	color: #15d36a;
+}
+</style>

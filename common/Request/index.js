@@ -56,6 +56,7 @@ const install = (Vue, vm) => {
 		get: () => new Request(vm)
 	})
 }
+export {Request}
 
 export default {
 	install

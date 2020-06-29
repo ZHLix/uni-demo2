@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
+		baseUrl: 'https://peixun.mulgore.cn',
 		/**
 		 * 主题色
 		 */

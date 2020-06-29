@@ -1,7 +1,7 @@
 <template>
 	<!-- #ifdef MP -->
 	<scroll-view
-		class="refresh-container"
+		class="refresh-container flex-sub"
 		scroll-y="true"
 		:refresher-enabled="refresh"
 		:refresher-triggered="refresherTriggered"
@@ -13,35 +13,36 @@
 	<!-- #endif -->
 	<!-- #ifndef MP -->
 
-	<scroll-view
-		class="refresh-container flex-sub flex flex-direction align-center"
-		scroll-y
-		@touchstart="touch"
-		@touchmove="touch"
-		@touchend="touch"
-		@touchcancel="touch"
-		@scroll="scroll"
-		@scrolltoupper="toupper"
-		@scrolltolower="tolower"
-	>
-		<view :class="['container', 'justify-center', 'align-center', height_status ? 'height_status' : '']" :style="{ height: (loading ? maxHeight : offset.top) + 'rpx' }">
-			<view class="flex-row justify-center align-center" style="min-width: 200upx; height: 100rpx">
-				<image
-					v-if="offset.start || height_status || loading"
-					src="/static/images/loading.png"
-					:class="['loading-image', 'margin-right-xs', loading ? 'loading' : '']"
-					style="width: 20px;height: 20px;"
-				></image>
+	<view class="refresh flex-sub margin-tb">
+		<scroll-view
+			class="refresh-container flex-sub flex flex-direction align-center"
+			scroll-y
+			@touchstart="touch"
+			@touchmove="touch"
+			@touchend="touch"
+			@touchcancel="touch"
+			@scroll="scroll"
+			@scrolltoupper="toupper"
+			@scrolltolower="tolower"
+		>
+			<view :class="['container', 'justify-center', 'align-center', height_status ? 'height_status' : '']" :style="{ height: (loading ? maxHeight : offset.top) + 'rpx' }">
+				<view class="flex-row justify-center align-center" style="min-width: 200upx; height: 100rpx">
+					<image
+						v-if="offset.start || height_status || loading"
+						src="/static/images/loading.png"
+						:class="['loading-image', 'margin-right-xs', loading ? 'loading' : '']"
+						style="width: 20px;height: 20px;"
+					></image>
 
-				<text class="text-sm text-gray" v-if="offset.loading">松开刷新</text>
-				<text class="text-sm text-gray" v-else-if="!loading && height_status">刷新成功</text>
-				<text class="text-sm text-gray" v-else-if="!height_status">下拉刷新</text>
-				<text class="text-sm text-gray" v-else>刷新中</text>
+					<text class="text-sm text-gray" v-if="offset.loading">松开刷新</text>
+					<text class="text-sm text-gray" v-else-if="!loading && height_status">刷新成功</text>
+					<text class="text-sm text-gray" v-else-if="!height_status">下拉刷新</text>
+					<text class="text-sm text-gray" v-else>刷新中</text>
+				</view>
 			</view>
-		</view>
-		<slot></slot>
-	</scroll-view>
-
+			<slot></slot>
+		</scroll-view>
+	</view>
 	<!-- #endif -->
 </template>
 
@@ -200,6 +201,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.refresh {
+	height: 100%;
+	transform: translateY(-32upx);
+}
 /* #ifdef MP */
 .refresh-container {
 	width: 100%;

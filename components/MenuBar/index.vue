@@ -1,8 +1,8 @@
 <template>
-	<view :style="{ height: height + 'px' }">
+	<view class="menu-bar" :style="{ height: height + 'px' }">
 		<view :class="['menubar', shadow ? 'shadow' : '']" :style="{ backgroundColor: background, height: height + 'px' }">
 			<view class="padding-lr-sm flex-row align-center" :style="{ height: menubar_height + 'px', marginTop: statusbar_height + 'px', paddingRight: left }">
-				<view class="back margin-right-xs" v-if="back" @click="backHandle"><c-icon :icon="'\ue65c'"></c-icon></view>
+				<view class="back margin-right-xs padding-lr-xs" v-if="back" @click="backHandle"><c-icon :icon="'\ue65c'"></c-icon></view>
 				<slot></slot>
 			</view>
 		</view>
@@ -83,6 +83,9 @@ export default {
 </script>
 
 <style scoped>
+	.menu-bar {
+		z-index: 1024;
+	}
 .shadow {
 	box-shadow: 0 -1upx 6upx rgba(0, 0, 0, 0.1);
 }

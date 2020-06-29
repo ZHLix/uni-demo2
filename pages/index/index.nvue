@@ -1,13 +1,13 @@
 <template>
 	<view class="container_full flex flex-direction">
-		<c-menu-bar><text class="text-black text-df">标题</text></c-menu-bar>
+		<c-menu-bar shadow><text class="text-black text-df">培训</text></c-menu-bar>
 
-		<c-refresh class="flex-sub" ref="refresh" @start="refresh" @tolower="lower">
-			<navigator url="../login/login" hover-class="none">
-				<button class="cu-btn bg-blue"><text class="text-df text-white">登录</text></button>
-			</navigator>
-
-			<button class="cu-btn bg-blue"><text class="text-df text-white">登录</text></button>
+		<c-refresh :refresh="false" class="flex-sub" ref="refresh">
+			<view class="padding">
+				<navigator url="./login" hover-class="none">
+					<button class="cu-btn bg-blue"><text class="text-df text-white">登录</text></button>
+				</navigator>
+			</view>
 		</c-refresh>
 
 		<c-tab-bar></c-tab-bar>
@@ -23,8 +23,10 @@ export default {
 	components: { CMenuBar, CIcon, CTabBar, CRefresh },
 	data() {
 		return {
-			title: 'Hello',
-			icon: '\ue607'
+			/**
+			 * api
+			 */
+			api: null
 		}
 	},
 	computed: {
@@ -32,22 +34,16 @@ export default {
 			return this.$store.state.theme
 		}
 	},
-	onLoad() {},
 	methods: {
-		refresh() {
-			console.log('this is refresh')
-
-			setTimeout(() => {
-				this.$refs.refresh.end()
-			}, 1000)
-		},
-
-		lower() {
-			console.log('test')
+		init() {
+			getApp().globalData.$api.commit('init')
 		}
+	},
+	
+	created() {
+		this.init()
 	}
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -35,6 +35,23 @@ class Utils {
 			}, s * 1000)
 		})
 	}
+
+	/**
+	 * 提示消息
+	 * @param {Object} content
+	 */
+	toast(content) {
+		// #ifdef APP-PLUS
+		plus.nativeUI.toast(content)
+		// #endif
+		// #ifndef APP-PLUS
+		uni.showToast({
+			title: content,
+			icon: 'none',
+			mask: false
+		})
+		// #endif
+	}
 }
 
 const install = (Vue, vm) => {
@@ -44,5 +61,6 @@ const install = (Vue, vm) => {
 }
 
 export default {
+	Utils,
 	install
 }
